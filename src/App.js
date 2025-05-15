@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import './App.css'; // Optional: Add styles for table and buttons
+import './App.css';
 
 const App = () => {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Fetch employee data on component mount
   useEffect(() => {
     fetch('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json')
       .then(response => response.json())
       .then(data => setEmployees(data))
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => {
+        alert('Failed to fetch data');
+        console.error('Error fetching data:', error);
+      });
   }, []);
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
